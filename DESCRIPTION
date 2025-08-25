@@ -1,0 +1,14 @@
+Package: sparseVCBART
+Type: Package
+Title: Sparse Varying Coefficient BART with GL priors
+Version: 0.0.0.9000
+Description: Uses Bayesian Additive Regression Trees to estimate covariate
+    effect functions in the linear varying coefficient model, with
+    global–local shrinkage.
+License: GPL (>= 3)
+Encoding: UTF-8
+SystemRequirements: C++14
+LinkingTo: Rcpp, RcppArmadillo
+Imports: Rcpp, MASS
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
