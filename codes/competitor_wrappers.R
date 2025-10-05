@@ -682,7 +682,7 @@ boosted_tvcm_wrapper <- function(Y_train, X_train, Z_train, X_test, Z_test,
 }
 
 
-### Extra trees wrapper ###
+####### Extra trees wrapper ######
 ##########################################################################################################################
 
 extraTrees_wrapper <- function(Y_train, X_train, Z_train, X_test, Z_test){
@@ -791,7 +791,7 @@ gbm_wrapper <- function(Y_train, X_train, Z_train, X_test, Z_test){
   return(results)
 }
 
-# wrapper for kernel smoothing (KS)
+####### wrapper for kernel smoothing (KS) #########
 ##########################################################################################################################
 # Prepare the outcomes
 # beta_summary_ gives the point estimate, bootstrap standard error, and bootstrap CI for each beta
@@ -992,7 +992,9 @@ lm_wrapper <- function(Y_train, X_train, Z_train, X_test, Z_test) {
   )
 }
 
-# Wrapper function for the tvcglm 
+######### Wrapper function for the TVC ##########
+##########################################################################################################################
+
 tvc_wrapper <- function(Y_train, X_train, Z_train, X_test, Z_test, B = 50) {
   
   n_obs_train <- nrow(X_train)
