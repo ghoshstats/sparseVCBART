@@ -13,11 +13,7 @@ R package for a sparse version of VCBART. Uses Bayesian Additive Regression Tree
   * **Linux:** build essentials (`gcc g++ make`)
 
 ### R package dependencies
-
-At minimum:
 * `Rcpp`, `RcppArmadillo` (C++ interface & linear algebra)
-* `VCBART` (baseline VCBART implementation)
-
 
 ### Install `sparseVCBART`
 
