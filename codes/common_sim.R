@@ -92,3 +92,7 @@ pred_from_wrapper <- function(ystar_mat, Y_te) {
   mu <- ystar_mat[, "MEAN"]; L <- ystar_mat[, "L95"]; U <- ystar_mat[, "U95"]
   c(rmse = sqrt(mean((mu - Y_te)^2)), cov = mean(Y_te >= L & Y_te <= U))
 }
+rmse_fun <- function(sum_obj, j, truth_fun, Zg) {
+  mean((sum_obj[, "MEAN", j] - truth_fun(Zg[, 1:2, drop = FALSE]))^2)^0.5
+}
+width95 <- function(sum_obj, j) mean(sum_obj[, "U95", j] - sum_obj[, "L95", j])
