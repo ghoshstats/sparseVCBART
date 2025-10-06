@@ -176,8 +176,8 @@ run_all_seeds_multichain <- function(seeds = 1:25, n_chains = 4, ...) {
     w
   }))
   list(
-    per_seed = seed_summaries,      # each row = one seed, metrics averaged across chains
-    details  = out_list             # includes per-chain tables if you want them
+    per_seed = seed_summaries,      
+    details  = out_list             
   )
 }
 
