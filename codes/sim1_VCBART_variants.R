@@ -162,24 +162,23 @@ run_seed_multichain <- function(seed,
 
 run_all_seeds_multichain <- function(seeds = 1:25, n_chains = 4, ...) {
   out_list <- lapply(seeds, function(s) run_seed_multichain(seed = s, n_chains = n_chains, ...))
-
+  
   seed_summaries <- do.call(rbind, lapply(out_list, function(x) {
-    w <- reshape(
-      x$summary,
-      timevar = "metric",
-      idvar   = NULL,
-      direction = "wide"
-    )
-    w$seed <- x$seed
-    w <- w[, c(ncol(w), setdiff(seq_len(ncol(w)-1), integer(0)))]
-    names(w) <- sub("^mean\\.", "", names(w))
-    w
+    mm <- setNames(x$summary$mean, x$summary$metric)
+    df <- as.data.frame(t(mm), stringsAsFactors = FALSE)
+    df$seed <- x$seed
+    # put seed first
+    df <- df[, c("seed", setdiff(names(df), "seed"))]
+    rownames(df) <- NULL
+    df
   }))
+  
   list(
-    per_seed = seed_summaries,      
-    details  = out_list             
+    per_seed = seed_summaries,      # each row = one seed, averaged across chains
+    details  = out_list
   )
 }
+
 
 
 res_all <- run_all_seeds_multichain(
