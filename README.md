@@ -58,6 +58,3 @@ functions used by multiple scripts. Wrappers for competitor methods are in `code
 ### Semi-synthetic analysis (Section 4.2)
 The script in the directory `codes/realdata.R` reproduces the semi-synthetic study. 
 
-
-
-If you want, I can tailor the paths/filenames in the commands to match your exact repo structure.
