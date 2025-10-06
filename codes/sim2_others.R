@@ -113,3 +113,54 @@ res_BTVCM <- run_one_rep_sim2_btvcm(seed,B=50)
 #print(res_BTVCM)
 
 #################### Run LM ########################
+run_one_rep_sim2_LM <- function(seed,
+                                        n_subj = 1000, m_per = 1,
+                                        p = 50, R = 20, sigma = 1,
+                                        d0 = 5, s0 = 2,
+                                        g = 200) {
+  set.seed(seed)
+  
+  tr <- gen_data_hd(n_subj = n_subj, m_per = m_per, p = p, R = R,
+                    sigma = sigma, d0 = d0, s0 = s0)
+  
+  Zg <- matrix(0.5, nrow = g, ncol = R); Zg[, 1] <- seq(0, 1, length.out = g)
+  
+  Xg0 <- matrix(0, nrow = g, ncol = p)
+  
+  fit <- lm_wrapper(tr$Y, tr$X, tr$Z, Xg0, Zg)
+  
+  ss2 <- fit$test$beta                    # dims: g x 4 x (p+1)
+  stopifnot(all(c("MEAN","L95","U95") %in% dimnames(ss2)[[2]]))
+  ss2 <- ss2[, c("MEAN","L95","U95"), , drop = FALSE]  # ensure right order
+  
+  # identify active vs zero (intercept + first d0 are active)
+  is_zero <- c(FALSE, rep(FALSE, d0), rep(TRUE, p - d0))  # length p+1
+  
+  truth_list <- gen_sparse_truth(p = p, R = R, d0 = d0, s0 = s0)
+  
+  rmse_act <- rmse_zero <- wid_act <- wid_zero <- numeric(0)
+  for (j in 1:(p + 1)) {
+    f <- truth_list[[j]]
+    if (is_zero[j]) {
+      rmse_zero <- c(rmse_zero, rmse_fun(ss2, j, f, Zg))
+      wid_zero  <- c(wid_zero,  width95(ss2, j))
+    } else {
+      rmse_act <- c(rmse_act, rmse_fun(ss2, j, f, Zg))
+      wid_act  <- c(wid_act,  width95(ss2, j))
+    }
+  }
+  
+  data.frame(
+    method = "LM",
+    seed   = seed,
+    rmse_act_mean   = mean(rmse_act),
+    rmse_zero_mean  = mean(rmse_zero),
+    width_act_mean  = mean(wid_act),
+    width_zero_mean = mean(wid_zero),
+    row.names = NULL
+  )
+}
+
+# lm_actzero_25 <- do.call(rbind, lapply(1:25, function(s)
+#   run_one_rep_sim2_LM(seed = s))
+# )
