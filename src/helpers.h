@@ -257,7 +257,7 @@ public:
   std::set<int> hex_to_set(int &K, std::string &hex_str){
     
     int num_blocks = K/4;
-    if(hex_str.size() != num_blocks+1){
+        if(hex_str.size() != (unsigned int) num_blocks+1){
       Rcpp::Rcout << "[hex_to_set]: hex_str = " << hex_str << " is wrong size" << std::endl;
       Rcpp::Rcout << "[hex_to_set]: for K = " << K << " values, hex_str must be of length " << num_blocks+1 << std::endl;
       Rcpp::stop("hex_str is of wrong size!");
