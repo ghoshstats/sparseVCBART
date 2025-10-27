@@ -104,7 +104,7 @@ arma::mat RNG::std_norm_mat(int nrow, int ncol){
 
 arma::vec RNG::mvnormal(arma::vec m, arma::mat P){
   int d = m.size();
-  if( (P.n_rows != d) | (P.n_cols != d)){
+    if( (P.n_rows != (unsigned int) d) | (P.n_cols != (unsigned int) d)){
     Rcpp::Rcout << "m.size() = " << d << " P.nrow = " << P.n_rows << " P.n_cols = " << P.n_cols << std::endl;
     Rcpp::stop("[RNG::mvnormal]: m & P have incompatible dimensions!");
   }
