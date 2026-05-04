@@ -189,12 +189,10 @@ p_box <- ggplot(df_plot, aes(x = covariate, y = lambda, fill = sig_lab)) +
     axis.text.x = element_text(angle = 35, hjust = 1, vjust = 1),
     legend.position = "bottom",
     
-    # --- make each facet a separate "box" ---
     panel.border = element_rect(fill = NA, linewidth = 0.9),
     panel.background = element_rect(fill = "white", color = NA),
     panel.spacing = unit(1.0, "lines"),
     
-    # optional: also box the strip area a bit cleaner
     strip.background = element_rect(fill = "grey95", linewidth = 0.6),
     strip.placement = "outside"
   )
