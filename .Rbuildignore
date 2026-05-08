@@ -1,0 +1,6 @@
+^README\.md$
+^\.github$
+^src/*.o$
+^NEWS\.md$
+^\.DS_Store$
+^codes/*$

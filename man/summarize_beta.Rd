@@ -8,11 +8,17 @@ Compute posterior mean and 95\% credible interval for evaluations of each coeffi
 Given an array of posterior samples of coefficient function evaluations, returns the posterior mean and 95\% credible interval for each evaluation.
 }
 \usage{
-summarize_beta(beta_samples)
+summarize_beta(beta_samples,
+               level = 0.95,
+               include_median = FALSE,
+               na.rm = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{beta_samples}{An array, returned by \code{VCBART_ind}, \code{VCBART_cs}, or \code{predict_betas} of posterior samples of coefficient function evaluations}
+  \item{level}{Default is \code{0.95}.}
+  \item{include_median}{Default is \code{FALSE}.}
+  \item{na.rm}{Default is \code{FALSE}.}
 }
 
 \value{

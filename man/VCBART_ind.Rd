@@ -84,7 +84,7 @@ This function assumes that the within-subject errors are independent.
 \item{trees}{A list (of length \code{nd}) of lists (of length \code{ncol(X_train)+1}) of character vectors (of length \code{M}) containing textual representations of the regression trees. The string for the s-th sample of the m-th tree in the j-th ensemble is contaiend in \code{trees[[s]][[j]][m]}. These strings are parsed by \code{predict_VCBART} to reconstruct the C++ representations of the sampled trees.}
 }
 \examples{
-\dontrun{
+
 ############
 # True beta functions
 beta0_true <- function(Z){
@@ -154,7 +154,16 @@ mu_all <- beta0_all + X_all[,1] * beta1_all + X_all[,2] * beta2_all +
   X_all[,3] * beta3_all + X_all[,4] * beta4_all + X_all[,5] * beta5_all
 Y_all <- mu_all + sigma * rnorm(n = N_all, mean = 0, sd = 1)
 
-
+## Token run to ensure installation works
+fit <-
+  VCBART_ind(Y_train = Y_all,
+             subj_id_train = subj_id_all,
+             ni_train = ni_all,
+             X_train = X_all,
+             Z_cont_train = Z_cont_all,
+             nd = 5, burn = 5,
+             verbose = FALSE)
+\donttest{
 #############
 # Create a training/testing split
 # since we randomly generated X and Z, 
@@ -186,14 +195,14 @@ beta_train <- beta_all[train_index,]
 beta_test <- beta_all[test_index,]
 
 fit <-
-  VCBART::VCBART_ind(Y_train = Y_train,
-                     subj_id_train = subj_id_train,
-                     ni_train = ni_train,
-                     X_train = X_train,
-                     Z_cont_train = Z_cont_train,
-                     X_test = X_test,
-                     Z_cont_test = Z_cont_test,
-                     verbose = FALSE)
+  VCBART_ind(Y_train = Y_train,
+            subj_id_train = subj_id_train,
+            ni_train = ni_train,
+            X_train = X_train,
+            Z_cont_train = Z_cont_train,
+            X_test = X_test,
+            Z_cont_test = Z_cont_test,
+            verbose = FALSE)
 plot(c(beta_train, beta_test),
      c(fit$betahat.train.mean, fit$betahat.test.mean),
      xlab = "Actual", ylab = "Fitted")
