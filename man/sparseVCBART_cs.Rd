@@ -1,14 +1,13 @@
-\name{VCBART_cs}
-\alias{VCBART_cs}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\name{sparseVCBART_cs}
+\alias{sparseVCBART_cs}
 \title{
-Fit a VCBART model with compound symmetry error structure
+Fit a sparse VCBART model with compound symmetry error structure
 }
 \description{
-Fit a varying coefficient model to panel data. Assumes a compound symmetry error structure in which the residual errors for a given subject are equally correlated. This is equivalent to assuming that there is a normally distributed random effect per subject.
+Fit a sparse varying coefficient model to panel data. Assumes a compound symmetry error structure in which the residual errors for a given subject are equally correlated. This is equivalent to assuming that there is a normally distributed random effect per subject.
 }
 \usage{
-VCBART_cs(Y_train,subj_id_train, ni_train,X_train,
+sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
           Z_cont_train = matrix(0, nrow = 1, ncol = 1),
           Z_cat_train = matrix(0L, nrow = 1, ncol = 1),
           X_test = matrix(0, nrow = 1, ncol = 1),

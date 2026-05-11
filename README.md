@@ -1,4 +1,10 @@
 # sparseVCBART
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/ghoshstats/sparseVCBART/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ghoshstats/sparseVCBART/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+
 R package for a sparse version of VCBART. Uses Bayesian Additive Regression Trees to estimate covariate effect functions in the linear varying coefficient model, with global–local shrinkage.
 
 ## Installation

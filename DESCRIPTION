@@ -2,17 +2,11 @@ Package: sparseVCBART
 Type: Package
 Title: Sparse Varying Coefficient BART with Global-Local Priors"
 Version: 1.0.0
-Date: 2026-05-08
+Date: 2026-05-11
 Authors@R: c(
-  person(given = "Soham", family = "Ghosh", role = c("aut", "cre"), email = "sghosh39@wisc.edu"),
-  person(given = "Sameer K.", family = "Deshpande", role = c("aut"), email = "sameer.deshpande@wisc.edu", comment = c(ORCID = "0000-0003-4116-5533")))
-Description: Uses Bayesian Additive Regression Trees to estimate covariate
-    effect functions in the linear varying coefficient model, with
-    global–local shrinkage. For more details see Ghosh, Bhogale, and Deshpande (2026+) <doi:10.48550/arXiv.2510.08204>.
+  person(given = "Soham", family = "Ghosh", role = c("aut"), email = "sghosh39@wisc.edu"),
+  person(given = "Sameer K.", family = "Deshpande", role = c("cre","aut"), email = "sameer.deshpande@wisc.edu", comment = c(ORCID = "0000-0003-4116-5533")))
+Description: Fits sparse linear varying coefficient models (VCMs), which assert a linear relationship between an outcome and several covariates that is allowed to change as functions of additional variables known as effect modifiers. Designed for high-dimensional settings where the number of covariates (i.e., number of slopes) is comparable to or larger than the number of observations. Approximates the coefficient functions using a version of Bayesian Additive Regression Trees that can perform global-local shrinkage. For more details see Ghosh, Bhogale, and Deshpande (2026+) <doi:10.48550/arXiv.2510.08204>.
 License: GPL (>= 3)
-Encoding: UTF-8
-SystemRequirements: C++14
 LinkingTo: Rcpp, RcppArmadillo
 Imports: Rcpp, MASS
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3

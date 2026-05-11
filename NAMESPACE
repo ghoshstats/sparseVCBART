@@ -1,5 +1,5 @@
-export("VCBART_ind")
-export("VCBART_cs")
+export("sparseVCBART_ind")
+export("sparseVCBART_cs")
 export("summarize_beta")
 export("predict_betas")
 importFrom("Rcpp", "evalCpp")

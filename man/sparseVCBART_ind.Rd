@@ -1,14 +1,14 @@
-\name{VCBART_ind}
-\alias{VCBART_ind}
+\name{sparseVCBART_ind}
+\alias{sparseVCBART_ind}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Fit a VCBART model with independent error structure
+Fit a sparse VCBART model with independent error structure
 }
 \description{
-Fit a varying coefficient model to panel data. Assumes residual errors are independent within and between subjects.
+Fit a sparse varying coefficient model to panel data. Assumes residual errors are independent within and between subjects.
 }
 \usage{
-VCBART_ind(Y_train,subj_id_train, ni_train,X_train,
+sparseVCBART_ind(Y_train,subj_id_train, ni_train,X_train,
            Z_cont_train = matrix(0, nrow = 1, ncol = 1),
            Z_cat_train = matrix(0L, nrow = 1, ncol = 1),
            X_test = matrix(0, nrow = 1, ncol = 1),
@@ -156,13 +156,13 @@ Y_all <- mu_all + sigma * rnorm(n = N_all, mean = 0, sd = 1)
 
 ## Token run to ensure installation works
 fit <-
-  VCBART_ind(Y_train = Y_all,
-             subj_id_train = subj_id_all,
-             ni_train = ni_all,
-             X_train = X_all,
-             Z_cont_train = Z_cont_all,
-             nd = 5, burn = 5,
-             verbose = FALSE)
+  sparseVCBART_ind(Y_train = Y_all,
+                   subj_id_train = subj_id_all,
+                   ni_train = ni_all,
+                   X_train = X_all,
+                   Z_cont_train = Z_cont_all,
+                   nd = 5, burn = 5,
+                   verbose = FALSE)
 \donttest{
 #############
 # Create a training/testing split
@@ -195,14 +195,14 @@ beta_train <- beta_all[train_index,]
 beta_test <- beta_all[test_index,]
 
 fit <-
-  VCBART_ind(Y_train = Y_train,
-            subj_id_train = subj_id_train,
-            ni_train = ni_train,
-            X_train = X_train,
-            Z_cont_train = Z_cont_train,
-            X_test = X_test,
-            Z_cont_test = Z_cont_test,
-            verbose = FALSE)
+  sparseVCBART_ind(Y_train = Y_train,
+                   subj_id_train = subj_id_train,
+                   ni_train = ni_train,
+                   X_train = X_train,
+                   Z_cont_train = Z_cont_train,
+                   X_test = X_test,
+                   Z_cont_test = Z_cont_test,
+                   verbose = FALSE)
 plot(c(beta_train, beta_test),
      c(fit$betahat.train.mean, fit$betahat.test.mean),
      xlab = "Actual", ylab = "Fitted")
