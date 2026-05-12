@@ -92,8 +92,8 @@ This function assumes that the within-subject errors are independent.
 beta0_true <- function(Z){
   tmp_Z <- (Z+1)/2
   return( 3 * tmp_Z[,1] + 
-  (2 - 5 * (tmp_Z[,2] > 0.5)) * sin(pi * tmp_Z[,1]) - 
-  2 * (tmp_Z[,2] > 0.5))
+            (2 - 5 * (tmp_Z[,2] > 0.5)) * sin(pi * tmp_Z[,1]) - 
+            2 * (tmp_Z[,2] > 0.5))
 }
 beta1_true <- function(Z){
   tmp_Z <- (Z+1)/2
@@ -102,27 +102,36 @@ beta1_true <- function(Z){
 beta2_true <- function(Z){
   tmp_Z <- (Z+1)/2
   return( (3 - 3*cos(6*pi*tmp_Z[,1]) * tmp_Z[,1]^2) * (tmp_Z[,1] > 0.6) - 
-  (10 * sqrt(tmp_Z[,1])) * (tmp_Z[,1] < 0.25) )
+            (10 * sqrt(tmp_Z[,1])) * (tmp_Z[,1] < 0.25) )
 }
 beta3_true <- function(Z){
-  #return(rep(0, times = nrow(Z)))
   return(rep(1, times = nrow(Z)))
 }
 beta4_true <- function(Z){
   tmp_Z <- (Z+1)/2
   return(10 * sin(pi * tmp_Z[,1] * tmp_Z[,2]) + 
-  20 * (tmp_Z[,3] - 0.5)^2 + 
-  10 * tmp_Z[,4] + 5 * tmp_Z[,5])
+           20 * (tmp_Z[,3] - 0.5)^2 + 
+           10 * tmp_Z[,4] + 5 * tmp_Z[,5])
 }
 beta5_true <- function(Z){
   tmp_Z <- (Z+1)/2
   return(exp(sin((0.9 * (tmp_Z[,1] + 0.48))^10)) + 
-  tmp_Z[,2] * tmp_Z[,3] + tmp_Z[,4])
+           tmp_Z[,2] * tmp_Z[,3] + tmp_Z[,4])
+}
+beta6_true <- function(Z){
+  return(rep(0, times = nrow(Z)))
+}
+beta7_true <- function(Z){
+  return(rep(0, times = nrow(Z)))
+}
+beta8_true <- function(Z){
+  return(rep(0, times = nrow(Z)))
+}
+beta9_true <- function(Z){
+  return(rep(0, times = nrow(Z)))
 }
 
-################
-# Set up problem dimension
-###############
+
 n_train <- 250 
 n_test <- 25
 sigma <- 1
@@ -133,7 +142,7 @@ ni_all <- rep(4, times = n_all) # 4 observations per subject
 subj_id_all <- rep(1:n_all, each = 4) # give every subject an id number
 N_all <- sum(ni_all) # total number of observations
 
-p <- 5 # number of covariates
+p <- 9 # number of covariates
 R_cont <- 20 # number of continuous modifiers
 R_cat <- 0 # number of categorical modifiers
 R <- R_cont + R_cat
@@ -148,12 +157,21 @@ beta2_all <- beta2_true(Z_cont_all)
 beta3_all <- beta3_true(Z_cont_all)
 beta4_all <- beta4_true(Z_cont_all)
 beta5_all <- beta5_true(Z_cont_all)
+beta6_all <- beta6_true(Z_cont_all)
+beta7_all <- beta7_true(Z_cont_all)
+beta8_all <- beta8_true(Z_cont_all)
+beta9_all <- beta9_true(Z_cont_all)
 
-beta_all <- cbind(beta0_all, beta1_all, beta2_all, 
-beta3_all, beta4_all, beta5_all)
+beta_all <- 
+  cbind(
+    beta0_all, beta1_all, beta2_all, beta3_all, beta4_all, 
+    beta5_all,beta6_all, beta7_all, beta8_all, beta9_all)
 
-mu_all <- beta0_all + X_all[,1] * beta1_all + X_all[,2] * beta2_all +
-  X_all[,3] * beta3_all + X_all[,4] * beta4_all + X_all[,5] * beta5_all
+mu_all <- 
+  beta0_all + X_all[,1] * beta1_all + X_all[,2] * beta2_all + X_all[,3] * beta3_all + 
+  X_all[,4] * beta4_all + X_all[,5] * beta5_all + X_all[,6] * beta6_all + 
+  X_all[,7] * beta7_all + X_all[,8] * beta8_all + X_all[,9] * beta9_all
+
 Y_all <- mu_all + sigma * rnorm(n = N_all, mean = 0, sd = 1)
 
 ## Token run to ensure installation works
