@@ -57,12 +57,14 @@ sparseVCBART_ind(Y_train,subj_id_train, ni_train,X_train,
   \item{print_every}{As the MCMC runs, a message is printed every \code{print_every} iterations. Default is \code{floor( (nd*thin + burn)/10)} so that only 10 messages are printed.}
 }
 \details{
-Given p covariates X1, ..., Xp and r modifiers Z1, ..., Zr, the varying coefficient model asserts that
+Given \eqn{p}{p} covariates \eqn{X_{1}, \ldots, X_{p}}{X1, ..., Xp} and \eqn{r}{r} effect modifiers \eqn{Z_{1}, \ldots, Z_{r}}{Z1, ..., Zr}, the varying coefficient model asserts that
 
-E[Y | X = x, Z = ] = beta_0(z) + beta_1(z) * x1 + ... beta_p(z) * xp.
+\eqn{E[Y \vert X = x, Z = ] = \beta_0(z) + \beta_1(z) * x_1 + ... \beta_p(z) * X_p.}{E[Y | X = x, Z = ] = beta_0(z) + beta_1(z) * x1 + ... beta_p(z) * xp.}
 
-That is, for any r-vector z, the relationships between X and Y is linear. However, the specific relationship is allowed to vary across z's.
-VCBART attempts to learn the covariate effect functions beta_0(*) ... beta_p(*) using ensembles of regression trees.
+That is, for any r-vector \eqn{Z}{Z}, the relationships between \eqn{X}{X} and \eqn{Y}{Y} is linear. 
+However, the specific relationship is allowed to vary with respect tp \eqn{Z}{Z}.
+This function approximates the functions \eqn{\beta_{j}(z)}{beta_j(z)} using ensembles of regression trees and specifies global-local priors on the regression tree outputs.
+Thanks to the ensuing adaptive shrinkage, this function can estimate \emph{sparse} varying coefficient models, which are useful in settings where \eqn{p}{p} is comparable to or greater than \eqn{n}{n}.
 This function assumes that the within-subject errors are independent.
 }
 \value{A list containing
@@ -208,4 +210,8 @@ plot(c(beta_train, beta_test),
      xlab = "Actual", ylab = "Fitted")
 abline(a = 0, b = 1, col = 'blue')
 }
+}
+\references{
+Ghosh, S., Bhogale, S., and Deshpande, S.K (2026+). Fitting sparse high-dimensional varying-coefficient models with Bayesian regression tree ensembles
+\emph{arXiv preprint} arXiv:2510.08204. \doi{doi:10.48550/arXiv.2510.08204}
 }

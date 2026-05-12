@@ -26,7 +26,6 @@ sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
           save_samples = TRUE, save_trees = TRUE,
           verbose = TRUE, print_every = floor( (nd*thin + burn)/10))
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Y_train}{Vector of continous responses for training data}
   \item{ni_train}{Vector containing the number of observations per subject in the training data.}
@@ -59,12 +58,14 @@ sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
   \item{print_every}{As the MCMC runs, a message is printed every \code{print_every} iterations. Default is \code{floor( (nd*thin + burn)/10)} so that only 10 messages are printed.}
 }
 \details{
-Given p covariates X1, ..., Xp and r modifiers Z1, ..., Zr, the varying coefficient model asserts that
+Given \eqn{p}{p} covariates \eqn{X_{1}, \ldots, X_{p}}{X1, ..., Xp} and \eqn{r}{r} effect modifiers \eqn{Z_{1}, \ldots, Z_{r}}{Z1, ..., Zr}, the varying coefficient model asserts that
 
-E[Y | X = x, Z = ] = beta_0(z) + beta_1(z) * x1 + ... beta_p(z) * xp.
+\eqn{E[Y \vert X = x, Z = ] = \beta_0(z) + \beta_1(z) * x_1 + ... \beta_p(z) * X_p.}{E[Y | X = x, Z = ] = beta_0(z) + beta_1(z) * x1 + ... beta_p(z) * xp.}
 
-That is, for any r-vector z, the relationships between X and Y is linear. However, the specific relationship is allowed to vary across z's.
-VCBART attempts to learn the covariate effect functions beta_0(*) ... beta_p(*) using ensembles of regression trees.
+That is, for any r-vector \eqn{Z}{Z}, the relationships between \eqn{X}{X} and \eqn{Y}{Y} is linear. 
+However, the specific relationship is allowed to vary with respect tp \eqn{Z}{Z}.
+This function approximates the functions \eqn{\beta_{j}(z)}{beta_j(z)} using ensembles of regression trees and specifies global-local priors on the regression tree outputs.
+Thanks to the ensuing adaptive shrinkage, this function can estimate \emph{sparse} varying coefficient models, which are useful in settings where \eqn{p}{p} is comparable to or greater than \eqn{n}{n}.
 This function assumes that the within-subject errors are equi-correlated (i.e. a compound symmetry error structure).
 }
 \value{A list containing
