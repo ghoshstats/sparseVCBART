@@ -2,7 +2,7 @@ Package: sparseVCBART
 Type: Package
 Title: Sparse Varying Coefficient BART with Global-Local Priors"
 Version: 1.0.0
-Date: 2026-05-11
+Date: 2026-05-12
 Authors@R: c(
   person(given = "Soham", family = "Ghosh", role = c("aut"), email = "sghosh39@wisc.edu"),
   person(given = "Sameer K.", family = "Deshpande", role = c("cre","aut"), email = "sameer.deshpande@wisc.edu", comment = c(ORCID = "0000-0003-4116-5533")))
