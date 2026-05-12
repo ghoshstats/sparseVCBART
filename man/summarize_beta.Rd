@@ -1,6 +1,5 @@
 \name{summarize_beta}
 \alias{summarize_beta}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Compute posterior mean and 95\% credible interval for evaluations of each coefficient function.
 }

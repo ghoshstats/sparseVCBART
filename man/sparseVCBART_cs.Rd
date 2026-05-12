@@ -4,7 +4,10 @@
 Fit a sparse VCBART model with compound symmetry error structure
 }
 \description{
-Fit a sparse varying coefficient model to panel data. Assumes a compound symmetry error structure in which the residual errors for a given subject are equally correlated. This is equivalent to assuming that there is a normally distributed random effect per subject.
+Fit a sparse varying coefficient model by approximating each coefficient function with an ensemble of regression trees.
+Global-local priors on the regression tree outputs facilitate adaptive shrinkage of the coefficient functions.
+Assumes a compound symmetry error structure in which the residual errors for a given subject are equally correlated. 
+This is equivalent to assuming that there is a normally distributed random effect per subject.
 }
 \usage{
 sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
@@ -31,7 +34,6 @@ sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
   \item{ni_train}{Vector containing the number of observations per subject in the training data.}
   \item{subj_id_train}{Vector of length \code{length(Y_train)} that records which subject contributed each observation. Subjects should be numbered sequentially from 1 to \code{length(ni_train)}.}
   \item{X_train}{Matrix of covariates for training observations. Do not include intercept as the first column.}
-  
   \item{Z_cont_train}{Matrix of continuous modifiers for training data. Note, modifiers must be rescaled to lie in the interval [-1,1]. Default is a 1x1 matrix, which signals that there are no continuous modifiers in the training data.}
   \item{Z_cat_train}{Integer matrix of categorical modifiers for training data. Note categorical levels should be 0-indexed. That is, if a categorical modifier has 10 levels, the values should run from 0 to 9. Default is a 1x1 matrix, which signals that there are no categorical modifiers in the training data.}
   \item{X_test}{Matrix of covariate for testing observations. Default is a 1x1 matrix, which signals that testing data is not provided.}
@@ -40,7 +42,7 @@ sparseVCBART_cs(Y_train,subj_id_train, ni_train,X_train,
   \item{unif_cuts}{Vector of logical values indicating whether cutpoints for each continuous modifier should be drawn from a continuous uniform distribution (\code{TRUE}) or a discrete set (\code{FALSE}) specified in \code{cutpoints_list}. Default is \code{TRUE} for each variable in \code{Z_cont_train}}
   \item{cutpoints_list}{List of length \code{ncol(Z_cont_train)} containing a vector of cutpoints for each continuous modifier. By default, this is set to \code{NULL} so that cutpoints are drawn uniformly from a continuous distribution.}
   \item{cat_levels_list}{List of length \code{ncol(Z_cat_train)} containing a vector of levels for each categorical modifier. If the j-th categorical modifier contains L levels, \code{cat_levels_list[[j]]} should be the vector \code{0:(L-1)}. Default is \code{NULL}, which corresponds to the case that no categorical modifiers are available.}
-    \item{edge_mat_list}{List of adjacency matrices if any of the categorical modifiers are network-structured. Default is \code{NULL}, which corresponds to the case that there are no network-structured categorical modifiers.}
+  \item{edge_mat_list}{List of adjacency matrices if any of the categorical modifiers are network-structured. Default is \code{NULL}, which corresponds to the case that there are no network-structured categorical modifiers.}
   \item{graph_split}{Vector of logicals indicating whether each categorical modifier is network-structured. Default is \code{rep(FALSE, times = ncol(Z_cat_train))}.}
   \item{sparse}{Logical, indicating whether or not to perform variable selection in each tree ensemble based on a sparse Dirichlet prior rather than uniform prior; see Linero 2018. Default is \code{TRUE}}
   \item{rho}{Initial auto-correlation parameter for compound symmetry error structure. Must be between 0 and 1. Default is 0.9.}

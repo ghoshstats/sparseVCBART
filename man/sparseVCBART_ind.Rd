@@ -1,11 +1,12 @@
 \name{sparseVCBART_ind}
 \alias{sparseVCBART_ind}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Fit a sparse VCBART model with independent error structure
 }
 \description{
-Fit a sparse varying coefficient model to panel data. Assumes residual errors are independent within and between subjects.
+Fit a sparse varying coefficient model by approximating each coefficient function with an ensemble of regression trees.
+Global-local priors on the regression tree outputs facilitate adaptive shrinkage of the coefficient functions.
+Assumes residual errors are independent within and between subjects.
 }
 \usage{
 sparseVCBART_ind(Y_train,subj_id_train, ni_train,X_train,
@@ -86,7 +87,6 @@ This function assumes that the within-subject errors are independent.
 \item{trees}{A list (of length \code{nd}) of lists (of length \code{ncol(X_train)+1}) of character vectors (of length \code{M}) containing textual representations of the regression trees. The string for the s-th sample of the m-th tree in the j-th ensemble is contaiend in \code{trees[[s]][[j]][m]}. These strings are parsed by \code{predict_VCBART} to reconstruct the C++ representations of the sampled trees.}
 }
 \examples{
-
 ############
 # True beta functions
 beta0_true <- function(Z){
@@ -132,6 +132,7 @@ beta9_true <- function(Z){
 }
 
 
+## Set problem dimensions
 n_train <- 250 
 n_test <- 25
 sigma <- 1
@@ -147,8 +148,8 @@ R_cont <- 20 # number of continuous modifiers
 R_cat <- 0 # number of categorical modifiers
 R <- R_cont + R_cat
 
+## Generate data
 Sigma_X <-  (0.5)^(abs(outer(1:p, 1:p, FUN = "-"))) # covariates are all correlated
-
 X_all <- MASS::mvrnorm(N_all, mu = rep(0, times = p), Sigma = Sigma_X)
 Z_cont_all <- matrix(runif(N_all * R_cont, min = -1, max = 1), nrow = N_all, ncol = R_cont)
 beta0_all <- beta0_true(Z_cont_all)
@@ -176,13 +177,14 @@ Y_all <- mu_all + sigma * rnorm(n = N_all, mean = 0, sd = 1)
 
 ## Token run to ensure installation works
 fit <-
-  sparseVCBART_ind(Y_train = Y_all,
-                   subj_id_train = subj_id_all,
-                   ni_train = ni_all,
-                   X_train = X_all,
-                   Z_cont_train = Z_cont_all,
-                   nd = 5, burn = 5,
-                   verbose = FALSE)
+  sparseVCBART_ind(
+    Y_train = Y_all,
+    subj_id_train = subj_id_all,
+    ni_train = ni_all,
+    X_train = X_all,
+    Z_cont_train = Z_cont_all,
+    nd = 5, burn = 5,
+    verbose = FALSE)
 \donttest{
 #############
 # Create a training/testing split
@@ -215,14 +217,16 @@ beta_train <- beta_all[train_index,]
 beta_test <- beta_all[test_index,]
 
 fit <-
-  sparseVCBART_ind(Y_train = Y_train,
-                   subj_id_train = subj_id_train,
-                   ni_train = ni_train,
-                   X_train = X_train,
-                   Z_cont_train = Z_cont_train,
-                   X_test = X_test,
-                   Z_cont_test = Z_cont_test,
-                   verbose = FALSE)
+  sparseVCBART_ind(
+    Y_train = Y_train,
+    subj_id_train = subj_id_train,
+    ni_train = ni_train,
+    X_train = X_train,
+    Z_cont_train = Z_cont_train,
+    X_test = X_test,
+    Z_cont_test = Z_cont_test,
+    verbose = FALSE)
+    
 plot(c(beta_train, beta_test),
      c(fit$betahat.train.mean, fit$betahat.test.mean),
      xlab = "Actual", ylab = "Fitted")
@@ -230,6 +234,6 @@ abline(a = 0, b = 1, col = 'blue')
 }
 }
 \references{
-Ghosh, S., Bhogale, S., and Deshpande, S.K (2026+). Fitting sparse high-dimensional varying-coefficient models with Bayesian regression tree ensembles
+Ghosh, S., Bhogale, S., and Deshpande, S.K (2026+). Fitting sparse high-dimensional varying-coefficient models with Bayesian regression tree ensembles.
 \emph{arXiv preprint} arXiv:2510.08204. \doi{doi:10.48550/arXiv.2510.08204}
 }
