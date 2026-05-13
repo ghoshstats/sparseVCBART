@@ -512,7 +512,7 @@ void draw_rule(rule_t &rule, tree &t, int &nid, data_info &di, tree_prior_info &
         if(gen.uniform() < (*tree_pi.theta_rc)){
           tmp_weight = gen.uniform(-1.0,1.0); // Breiman used Uniform(-1,1) weights and so shall we
           rule.rc_weight.insert(std::pair<int,double>(j,tmp_weight));
-          c_max += fabs(tmp_weight);
+          c_max += std::abs(tmp_weight);
         }
       }
       ++(rule_counter);
